@@ -39,8 +39,8 @@ Library Management System is a command-line-based application to streamline the 
     - When the class is instantiated `__init__(self)`, it establishes other class instances for use in menus
 * There are 4 menus with additional features in the `UserInterface` class:
     - **Main Menu**
-    - **Book Operations**
     - **User Operations**
+    - **Book Operations**
     - **Author Operations**
 * Each menu includes:
     - User-friendly format with specific options to choose from
@@ -49,16 +49,18 @@ Library Management System is a command-line-based application to streamline the 
 #### *Main Menu:*
 * `main_menu(self)`
 * Provides 4 options to choose from:
-1. Book Operations:
-    - Sends the user to the Book Operations Menu `book_operations()`
-2. User Operations:
+
+1. User Operations:
     - Sends the user to the User Operations Menu `user_operations()`
+2. Book Operations:
+    - Sends the user to the Book Operations Menu `book_operations()`
 3. Author Operations:
     - Sends the user to the Author Operations Menu `author_operations()`
 4. Quit:
     - Provides the user a grateful message for using the system
         > .\~* Thank you for using Library Management System! *\~.
-        > \* Exiting program... \*
+        
+        > \n\* Exiting program... \*
     - Breaks from the loop
     - `finally`: terminates the program
 #### *User Operations:*
