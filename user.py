@@ -1,3 +1,9 @@
+# UniqueIdGenerator Class: 
+# Uses methods to generate unique library IDs
+
+# User Class:
+# Uses methods to handle all user data including private attributes
+
 class UniqueIdGenerator:
     def __init__(self):
         self.counter = 0
@@ -16,8 +22,8 @@ class User:
 
     def get_library_id(self):
         return self._library_id
-    
-    def get_name(self):
+
+    def get_user_name(self):
         return self._name
     
     def get_borrowed_books(self):
@@ -31,6 +37,11 @@ class User:
             if book == borrowed_book:
                 self._borrowed_books.remove(book)
                 return
-    
-    def format(self):
-        return f"\nLibrary ID: {self._library_id}\n- Name: {self._name}\n- Borrowed Books: \n\t~ {[book for book in self._borrowed_books]}"
+
+    def format_user(self):
+        print(f"\nLibrary ID: {self._library_id}\n- Name: {self._name}\n- Borrowed Books: ")
+        if self._borrowed_books is None:
+            print("\t~ No borrowed books.")
+        else:
+            for book in self._borrowed_books:
+                print(f"\t~ {book}")

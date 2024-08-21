@@ -1,3 +1,7 @@
+# UserInterface Class:
+# Uses methods to handle all user interface menus
+# Includes specific error raising and exception handling
+
 from library import Library
 from user_input import UserInput
 
@@ -10,8 +14,8 @@ class UserInterface:
     def main_menu(self):
         while True:
             print("\n.~* MAIN MENU *~.")
-            print("1. Book Operations")
-            print("2. User Operations")
+            print("1. User Operations")
+            print("2. Book Operations")
             print("3. Author Operations")
             print("4. Quit")
             choice = input("Enter your choice (1/2/3/4): ")
@@ -20,9 +24,9 @@ class UserInterface:
                     print("\n.~* Thank you for using Library Management System! *~.\n* Exiting program... *\n")
                     break
                 elif choice == '1':
-                    self.book_operations()
-                elif choice == '2':
                     self.user_operations()
+                elif choice == '2':
+                    self.book_operations()
                 elif choice == '3':
                     self.author_operations()
                 else:
@@ -35,6 +39,40 @@ class UserInterface:
                 print(f"\n* An unexpected error occurred: *\n* {e} *")
             finally:
                 return False
+
+
+    def user_operations(self):
+        while True:
+            print("\n.~* USER OPERATIONS *~.")
+            print("1. Add a New User")
+            print("2. View User Details")
+            print("3. Display All Users")
+            print("4. Return to Main Menu")
+            choice = input("Enter your choice (1/2/3/4): ")
+            try:
+                if choice == '4':
+                    print("\n* Returning to Main Menu... *")
+                    self.main_menu()
+                    break
+                elif choice == '1':
+                    results = self.user_input.add_user()
+                    print(results)
+                elif choice == '2':
+                    results = self.user_input.view_user_details()
+                    print(results)
+                elif choice == '3':
+                    print("\n** List of All Users **")
+                    self.library.display_all_users()
+                else:
+                    raise ValueError("\n* Invalid choice. Please enter the digit that corresponds with your selection. *")
+            except ValueError as v:
+                print(v)
+            except LookupError as l:
+                print(l)
+            except TypeError:
+                print("\n* An unexpected type error occurred. Please ensure you enter the digit that corresponds with your selection. *")
+            except Exception as e:
+                print(f"\n* An unexpected error occurred: *\n* {e} *")
             
 
     def book_operations(self):
@@ -66,46 +104,14 @@ class UserInterface:
                 elif choice == '5':
                     print("\n** Full Library Collection: **")
                     self.library.display_all_books()
-                    # print(results)
                 else:
                     raise ValueError("\n* Invalid choice. Please enter the digit that corresponds with your selection. *")
             except ValueError as v:
                 print(v)
-            # except TypeError:
-            #     print("\n* An unexpected type error occurred. Please ensure you enter the digit that corresponds with your selection. *")
-            except Exception as e:
-                print(f"\n* An unexpected error occurred: *\n* {e} *")
-
-
-    def user_operations(self):
-        while True:
-            print("\n.~* USER OPERATIONS *~.")
-            print("1. Add a New User")
-            print("2. View User Details")
-            print("3. Display All Users")
-            print("4. Return to Main Menu")
-            choice = input("Enter your choice (1/2/3/4): ")
-            try:
-                if choice == '4':
-                    print("\n* Returning to Main Menu... *")
-                    self.main_menu()
-                    break
-                elif choice == '1':
-                    results = self.user_input.add_user()
-                    print(results)
-                elif choice == '2':
-                    results = self.user_input.view_user_details()
-                    print(results)
-                elif choice == '3':
-                    print("\n** List of All Users **")
-                    self.library.display_all_users()
-                    # print(results)
-                else:
-                    raise ValueError("\n* Invalid choice. Please enter the digit that corresponds with your selection. *")
-            except ValueError as v:
-                print(v)
-            # except TypeError:
-            #     print("\n* An unexpected type error occurred. Please ensure you enter the digit that corresponds with your selection. *")
+            except LookupError as l:
+                print(l)
+            except TypeError:
+                print("\n* An unexpected type error occurred. Please ensure you enter the digit that corresponds with your selection. *")
             except Exception as e:
                 print(f"\n* An unexpected error occurred: *\n* {e} *")
 
@@ -131,13 +137,14 @@ class UserInterface:
                 elif choice == '3':
                     print("\n** All Authors in Library **")
                     self.library.display_all_authors()
-                    # print(results)
                 else:
                     raise ValueError("\n* Invalid choice. Please enter the digit that corresponds with your selection. *")
             except ValueError as v:
                 print(v)
-            # except TypeError:
-            #     print("\n* An unexpected type error occurred. Please ensure you enter the digit that corresponds with your selection. *")
+            except LookupError as l:
+                print(l)
+            except TypeError:
+                print("\n* An unexpected type error occurred. Please ensure you enter the digit that corresponds with your selection. *")
             except Exception as e:
                 print(f"\n* An unexpected error occurred: *\n* {e} *")
 
