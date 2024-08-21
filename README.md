@@ -59,8 +59,8 @@ Library Management System is a command-line-based application to streamline the 
 4. Quit:
     - Provides the user a grateful message for using the system
         > .\~* Thank you for using Library Management System! *\~.
-        
-        > \n\* Exiting program... \*
+
+        > \* Exiting program... \*
     - Breaks from the loop
     - `finally`: terminates the program
 #### *User Operations:*
