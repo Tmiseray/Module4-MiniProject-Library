@@ -45,7 +45,7 @@ Library Management System is a command-line-based application to streamline the 
 * Each menu includes:
     - User-friendly format with specific options to choose from
     - While loops to ensure the menu is always provided to the user until no longer needed
-    - `try` & `except` blocks for error handling of user inputs
+    - `try` & `except` blocks for specific error handling of user inputs
 #### *Main Menu:*
 * `main_menu(self)`
 * Provides 4 options to choose from:
@@ -122,9 +122,6 @@ Library Management System is a command-line-based application to streamline the 
 * `class ValidateInputs`
 * Once instantiated, `__init__(self)` establishes instances for REGEX patterns and datetime module for use
 * There are 3 methods within this class:
-    - `check_library_id(self, library_id)`
-    - `format_library_id(self, library_id)`
-    - `validate_year(self, publication_date)`
 * Each method is called within `UserInput` class
 1. ***Validating Library ID:***
     - `check_library_id(self, library_id)`
@@ -147,19 +144,8 @@ Library Management System is a command-line-based application to streamline the 
         * Discussed further in README under the `User` class section
         * [Module for User & UniqueIdGenerator Classes](user.py)
     - `library` from UserInterface class
-* There are 8 methods within this class and commented for clarity on which Menus they came from:
-    - **User Operations Inputs:**
-        * `add_user(self)`
-        * `view_user_details(self)`
-    - **Book Operations Inputs:**
-        * `add_book(self)`
-        * `borrow_book(self)`
-        * `return_book(self)`
-        * `search_for_book(self)`
-    - **Author Operations Inputs:**
-        * `add_author(self, author=None)`
-        * `view_author_details(self)`
 * Each method uses `input()` for user input and calls to the appropriate modules, classes, and methods to complete their actions
+* There are 8 methods within this class and commented for clarity on which Menus they came from:
 
 **User Operations Inputs:**
 
@@ -176,7 +162,7 @@ Library Management System is a command-line-based application to streamline the 
         * `self.validate_inputs.format_library_id(library_id)`
     - On failure, the `ValueError` is raised:
         > \* Invalid Library ID. Please try again. \*
-    - Otherwise, advises the user of the action, instantiates a method from the `User` class to find the user's details, and returns the results
+    - Otherwise, advises the user of the action, instantiates a method from the `Library` class to find the user's details, and returns the results
         > \* Retrieving Details for Library ID: {library_id}... \*
         * `self.library._find_user_by_library_id(library_id)`
 
@@ -184,10 +170,10 @@ Library Management System is a command-line-based application to streamline the 
 
 3. *Add a New Book:*
     - `add_book(self)`
-    - Prompts the user to enter title, suthor, genre, and publication date for the new book
+    - Prompts the user to enter title, author, genre, and publication date for the new book
     - Validates the publication date ensuring the year already exists
         * `self.validate_inputs.validate_year(publication_date)`
-    - If it fails validation, the user is advised of the failure:
+    - If it fails validation, the `ValueError` is raised:
         > \* '{publication_date}' is not a valid publication year. Please try again. \*
     - If pass, instantiates `Book` class with the details, calls to `Library` class for `add_book_to_library(book)` method, and provides the user with a confirmation message along with details broken down
     - If the author is a *NEW* author, calls `add_author(author)` method
@@ -238,4 +224,126 @@ Library Management System is a command-line-based application to streamline the 
 
 ### Library Class & Methods
 * [Module for Library Class & Methods](library.py)
-* This module habdles the `Library` class which contains the Library's dictionaries of users, books, and authors
+* This module handles the `Library` class which contains the Library's dictionaries of users, books, and authors as well as any actions associated
+* There are 11 methods within this class:
+
+1. ***Add User to Library***
+    - `add_user_to_library(self, user)`
+    - Takes the class object `user` and adds it to the users dictionary
+2. ***Add Borowed Book***
+    - `add_borrowed_book(self, library_id, title)`
+    - Appends the book to the user's `_borrowed_books` list
+    - Marks the book as `"Borrowed"` in the books dictionary
+    - Returns a confirmation message
+3. ***Remove Returned Book***
+    - `remove_returned_book(self, library_id, title)`
+    - Removes the book from the user's `_borrowed_books` list
+    - Marks the book as `"Available"` in the books dictionary
+    - Returns a confirmation message
+4. ***Find User by Library ID***
+    - `_find_user_by_library_id(self, library_id)`
+    - Finds the user by their Library ID and calls a method from the user class for formatting and printing of details
+    - If not found, `LookupError` is raised:
+        > `f"Cannot find user with Library ID: {library_id}`
+5. ***Display All Users***
+    - `display_all_users(self)`
+    - Calls a method from the `User` class to get the user's name and prints each user's Library ID & Name
+6. ***Add Book to Library***
+    - `add_book_to_library(self, book)`
+    - Takes the class object `book` and adds it to the users dictionary
+7. ***Find Book by Title***
+    - `find_book_by_title(self, book)`
+    - Finds the book by title and calls a method from the book class for formatting and returning details
+    - If not found, `LookupError` is raised:
+        > `f"Cannot find book with title: {book}`
+8. ***Display All Books***
+    - `display_all_books(self)`
+    - Calls a method from the `Book` class for formatting and returning all book's details
+9. ***Add Author to Library***
+    - `add_author_to_library(self, author)`
+    - Takes the class object `author` and adds it to the users dictionary
+10. ***Find Author***
+    - `find_author(self, author_name)`
+    - Finds the author by name and calls a method from the author class for formatting and returning details
+    - If not found, `LookupError` is raised:
+        > `f"Cannot find author: {author_name}`
+11. ***Display All Authors***
+    - `display_all_authors(self)`
+    - Prints each author in a list
+
+### User & UniqueIdGenerator Classes
+* [Module for User & UniqueIdGenerator Classes and Methods](user.py)
+* This module handles all users data
+* There are 2 classes with their own methods:
+    - **UniqueIdGenerator**
+    - **User**
+#### *Unique ID Generation:*
+* `class UniqueIdGenerator`
+* Once instantiated, establishes instances for:
+    - `self.counter = 0`
+    - `self.prefix = 'LID-'`
+        * These are both used within the second method
+* *Library ID Generator:*
+    - `generate_id(self)`
+    - Increments the counter, concatenates it to the prefix, and returns the value
+        * `{self.prefix}{self.counter}`
+#### *User:*
+* `class User`
+* Once instantiated, establishes instances for user's data inputs including:
+    - Library ID (private attribute)
+    - Name (private attribute)
+    - Defaulted empty list for borrowed books (private attribute)
+* There are 6 methods within this class including:
+
+1. *Library ID Getter:*
+    - `get_library_id(self)`
+    - Gets the private attribute for any use outside of the Class
+2. *Name Getter*
+    - `get_name(self)`
+    - Gets the private attribute for any use outside of the Class
+3. *Borrowed Books Getter*
+    - `get_borrowed_books(self)`
+    - Gets the private attribute for any use outside of the Class
+4. *Assign Borrowed Book to User Data*
+    - `add_borrowed_book(self, book)`
+    - Appends the book title to the user's borrowed book list
+5. *Remove a Returned Book from User Data*
+    - `return_borrowed_book(self, book)`
+    - Finds the book title within the user's "Borrowed Books" list and removes it from the list
+6. *Format User*
+    - `format_user(self)`
+    - Formats the user's data to show Library ID, Name, and each (if any) Borrowed books
+
+### Book Class & Methods
+* [Module for Book Class & Methods](book.py)
+* This module handles the `Book` class and it's own methods
+* There are 7 methods within this class:
+1. *Title Getter*
+    - `get_title(self)`
+2. *Author Getter*
+    - `get_author(self)`
+3. *Genre Getter*
+    - `get_genre(self)`
+4. *Publication Date Getter*
+    - `get_publication_date(self)`
+5. *Availability Getter*
+    - `get_availability(self)`
+6. *Marking Book's Availability*
+    - `mark_as_borrowed(self, is_borrowed)`
+    - If `is_borrowed` is True, marks `availability` as `"Borrowed"`
+    - If `is_borrowed` is False, marks `availability` as `"Available"`
+7. *Format Book*
+    - `format_book(self)`
+    - Formats the book's details
+
+### Author Class & Methods
+* [Module for Author Class & Methods](author.py)
+* This module handles the `Author` class and methods
+* There are 3 methods within this class:
+1. *Author Name Getter*
+    - `get_author_name(self)`
+2. *Biography Getter*
+    - `get_biography(self)`
+3. *Format Author*
+    - `format_author(self)`
+    - Formats the author's details

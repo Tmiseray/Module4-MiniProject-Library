@@ -31,7 +31,7 @@ class Library:
         if library_id in self.users:
             self.users[library_id].format_user()
         else:
-            raise LookupError(f"Cannot find user with library_id: {library_id}")
+            raise LookupError(f"Cannot find user with Library ID: {library_id}")
 
     def display_all_users(self):
         for library_id, user in self.users.items():
